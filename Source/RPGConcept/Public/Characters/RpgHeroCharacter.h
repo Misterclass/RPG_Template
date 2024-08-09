@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "RPG.h"
 #include "Characters/RpgBaseCharacter.h"
 #include "RpgHeroCharacter.generated.h"
 
@@ -14,4 +14,6 @@ class RPGCONCEPT_API ARpgHeroCharacter : public ARpgBaseCharacter
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BeginPlay() override;
 };

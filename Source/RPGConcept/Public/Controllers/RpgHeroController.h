@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "RPG.h"
 #include "GameFramework/PlayerController.h"
 #include "RpgHeroController.generated.h"
 
