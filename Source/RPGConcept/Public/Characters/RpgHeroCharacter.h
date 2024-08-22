@@ -4,10 +4,12 @@
 
 #include "RPG.h"
 #include "Characters/RpgBaseCharacter.h"
+#include "InputActionValue.h"
 #include "RpgHeroCharacter.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
+class UInputAction;
 
 /**
  * 
@@ -22,6 +24,10 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
 
 private:
 #pragma region Components
@@ -31,6 +37,17 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+#pragma endregion 
+
+#pragma region Input
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* MoveAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* LookAction;
+
 #pragma endregion 
 
 };
