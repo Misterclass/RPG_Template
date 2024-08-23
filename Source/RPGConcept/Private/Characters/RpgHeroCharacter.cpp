@@ -7,8 +7,13 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "InputAction.h"
-#include "EnhancedInputComponent.h"
+#include "InputActionValue.h"
+#include "Input/DAInputConfig.h"
+#include "EnhancedInputSubsystems.h"
+#include "Input/RpgEnhancedInputComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "InputMappingContext.h"
+#include "RpgConceptTags.h"
 
 
 ARpgHeroCharacter::ARpgHeroCharacter()
@@ -39,16 +44,24 @@ ARpgHeroCharacter::ARpgHeroCharacter()
 void ARpgHeroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	Debug::Print(TEXT("Hello World!"));
 }
 
 void ARpgHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	UEnhancedInputComponent* EnhancedInputComp = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
-	EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
-	EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
+	checkf(InputConfig, TEXT("Your forgot to set Input Config DA!"));
+	checkf(InputConfig->InputContext, TEXT("Your forgot to set Input mapping Context in your Config!"));
+
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	check(LocalPlayer);
+	UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	check(InputSystem);
+	InputSystem->AddMappingContext(InputConfig->InputContext, 0);
+
+	URpgEnhancedInputComponent* RpgInputComponent = CastChecked<URpgEnhancedInputComponent>(PlayerInputComponent);
+	RpgInputComponent->BindNativeInputAction(InputConfig, RPGGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
+	RpgInputComponent->BindNativeInputAction(InputConfig, RPGGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Look);
 }
 
 void ARpgHeroCharacter::Move(const FInputActionValue& Value)

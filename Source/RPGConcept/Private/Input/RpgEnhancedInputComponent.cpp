@@ -1,4 +1,4 @@
 // Paul Polbitsev (@evilowl). All Rights Reserved
 
 
-#include "Controllers/RpgHeroController.h"
+#include "Input/RpgEnhancedInputComponent.h"

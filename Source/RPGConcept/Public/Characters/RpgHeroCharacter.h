@@ -4,12 +4,12 @@
 
 #include "RPG.h"
 #include "Characters/RpgBaseCharacter.h"
-#include "InputActionValue.h"
 #include "RpgHeroCharacter.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
-class UInputAction;
+class UDAInputConfig;
+struct FInputActionValue;
 
 /**
  * 
@@ -42,11 +42,8 @@ private:
 
 #pragma region Input
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	UInputAction* LookAction;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Config", meta = (AllowPrivateAccess = "true"))
+	UDAInputConfig* InputConfig;
 
 #pragma endregion 
 
