@@ -10,6 +10,8 @@ void URpgCharacterAnimInstance::NativeInitializeAnimation()
 	Super::NativeInitializeAnimation();
 
 	OwningCharacter = Cast<ARpgBaseCharacter>(TryGetPawnOwner());
+	//Lol. It gets called even in editor. 
+	//You must protect these moments by if
 	if (OwningCharacter)
 	{
 		OwningCharacterMovement = OwningCharacter->GetCharacterMovement();
