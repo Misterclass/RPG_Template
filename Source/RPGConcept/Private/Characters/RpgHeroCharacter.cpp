@@ -14,6 +14,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "InputMappingContext.h"
 #include "RpgConceptTags.h"
+#include "AbilitySystem/RpgBaseAttributeSet.h"
+#include "AbilitySystem/RpgAbilitySystemComponent.h"
 
 
 ARpgHeroCharacter::ARpgHeroCharacter()
@@ -39,6 +41,19 @@ ARpgHeroCharacter::ARpgHeroCharacter()
 	CharacterMovementComp->MaxWalkSpeed = 200.f;
 	CharacterMovementComp->RotationRate = FRotator(0.f, 500.f, 0.f);
 	CharacterMovementComp->bOrientRotationToMovement = true;
+}
+
+void ARpgHeroCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (AbilitySystemComponent && AttributeSet)
+	{
+		const FString OwnerActorName = AbilitySystemComponent->GetOwnerActor()->GetActorLabel();
+		const FString AvatarActorName = AbilitySystemComponent->GetAvatarActor()->GetActorLabel();
+		const FString DebugMsg = FString::Printf(TEXT("Ability system initialized. Actor owner is %s and avatar actor is %s"), *OwnerActorName, *AvatarActorName);
+		Debug::Print(DebugMsg, FColor::Green);
+	}
 }
 
 void ARpgHeroCharacter::BeginPlay()
